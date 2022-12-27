@@ -1,0 +1,91 @@
+@media only screen and (max-width: 600px) {
+  * {
+    box-sizing: border-box;
+    width: 100% !important;
+    text-align: left;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .row{
+    margin: 3% 0 0 0;
+    padding: 0;
+    
+  }
+
+  #contnet{
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 5% 0;
+    border-radius: 0;
+  }
+  
+  .logoImage{
+    width: 20%  !important;
+  }
+
+  #title > h1{
+    font-size: 1.5rem;
+    overflow: hidden;
+    text-align: center;
+    align-items: center;
+  }
+
+  .col-sm-12{
+    WIDTH: 100% !important;
+  }
+
+  .col > label{
+    display: block;
+    WIDTH: 100% !important;
+  }
+
+  .col-6, .col-md-6, .col-12, .col-md-12 {
+    width: 99% !important;
+  }
+
+  table{
+    width: 100% !important;
+    overflow: auto;
+  }
+
+  h2{
+    font-size: .95rem;
+    overflow: hidden;
+  }
+
+
+  input[type=radio]{
+    margin-bottom: 0 !important;
+    padding: 0;
+    width: max-content !important;
+  } 
+
+  .RadioCatorgy{
+    font-size: .8rem;
+    overflow: hidden;
+    align-items: center 
+  }
+
+
+
+  span {
+    margin: 0;
+    width: fit-content !important;
+  }
+
+  #YarnMixtureCount{
+    width: fit-content !important;
+    display: flex;
+  }
+  thead > tr:first-child{
+    font-size: .8rem;
+  }
+
+
+  .table tr td:first-child, th:first-child {
+    width: 1% !important;
+  }
+}

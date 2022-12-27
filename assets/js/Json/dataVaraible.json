@@ -1,0 +1,95 @@
+{
+    "Title": "PPCC",
+    "Sub Title": "Pre Product Cost Calculator",
+    
+    "Table": {
+        "Product Information":{
+            "head": ["S.NO", "Yarn Title", "Yarn Rate(LBS)", "Yarn Price(KG)", "Percentage","Total Yarn Cost(KG)"],
+            "body": ["", "", "", "", ""],
+            "Foot": ["Total Yarn Cost", ""]
+        }
+    },
+
+
+    "Waste_Details": {
+        "title": "Production Wastages",
+        "NoOfRows": 6,
+        "NoOfColumn": 4,
+        "Column": {
+            "name": [
+                "",
+                "Catogories",
+                "Percentages",
+                "Cost"
+            ],
+            "type": [
+                "int",
+                "text",
+                "input_number",
+                "float"
+            ],
+            "formula":[
+                "",
+                "",
+                "",
+                ""
+            ],
+            "perfix": [
+                "",
+                "",
+                "",
+                ""
+            ],
+            "postfix": [
+                "",
+                "",
+                " %",
+                ""
+            ]
+        },
+        "Row": {
+            "name": [
+                "Yarn",
+                "Dying Process",
+                "B% per kg",
+                "Waving / Knitting Wastage",
+                "Yarn Dying",
+                "Shairing"
+            ]
+        }, "Total": {
+            "name": [
+                "Total Wastage",
+                "",
+                ""
+            ],
+
+            "postfix": [
+                "",
+                "",
+                "",
+                ""
+            ]
+        },
+
+        "GlossDiv": {
+            "title": "S",
+            "GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+                    "SortAs": "SGML",
+                    "GlossTerm": "Standard Generalized Markup Language",
+                    "Acronym": "SGML",
+                    "Abbrev": "ISO 8879:1986",
+                    "GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+                        "GlossSeeAlso": [
+                            "GML",
+                            "XML"
+                        ]
+                    },
+                    "GlossSee": "markup"
+                }
+            }
+        }
+    }
+}

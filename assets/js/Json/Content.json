@@ -1,0 +1,31 @@
+[
+  {
+    "Product Type": ["Fitted Sheet", "Towels", "Blanket", "Apparel"],
+    "Yarn Mixture": [1,2,3,4,5,6],
+    "Stock Type": {
+      "normal": ["Open Stock", "Per Pack"],
+      "id": [],
+      "PerPack": ["Pack Size"]
+    },
+    "Per Piece": {
+      "normal": ["GSM", "Cut Width in cm", "Cut Length in cm"],
+      "apparel": ["Body / Chest", "Arm", "Hood", "Pocket", "RIB"],
+      "id": ["GSM", "CutWidth", "CutLenght"]
+    }
+  },
+  {
+    "Title": "PPCC Report",
+    "SubTitle": "Pre Product Cost Calculator",
+    "logo": {"Image":"./assets/img/logo.png", "Alt":"CompanyLogo"},
+
+    "Table":[
+      {
+        "id": 1,
+        "Title": "Product Information",
+        "head": ["", "Yarn Title", "Yarn Rate(lbs)", "Yarn Price(kg)", "Yarn Percentage", "Total Yarn Cost(KG)"],
+        "colspan": 12
+      }
+
+    ]
+  }
+]
