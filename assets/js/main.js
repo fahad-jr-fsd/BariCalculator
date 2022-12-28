@@ -29,18 +29,26 @@ const tableHead = {
 
 
 const RowDetails_Factory = [
+  {name: "Stitching",               id:"Stitching"}, 
   {name: "Lable",                   id:"Lable"}, 
+  {name: "Stitching Thread",        id:"StitchingThread"},
+  {name: "Poly Bag",                id:"PolyBag"}, 
   {name: "Zipper",                  id:"Zipper"}, 
   {name: "Velcru",                  id:"Velcru"}, 
   {name: "Elastic",                 id:"Elastic"}, 
   {name: "Tag Card",                id:"TagCard"}, 
-  {name: "Stitching",               id:"Stitching"}, 
   {name: "Garment Wash",            id:"GarmentWash"},
   {name: "Elastic Band",            id:"ElasticBand"}, 
   {name: "Basic Carton",            id:"BasicCarton"}, 
   {name: "Fancy Carton",            id:"FancyCarton"}, 
-  {name: "Stitching Thread",        id:"StitchingThread"},
   {name: "Embriodery / Print",      id:"Embriodery"}, 
+  {name: "TagPin",                  id:"TagPin"}, 
+  {name: "Twill Tape",              id:"Twill"}, 
+  {name: "Belly Band",              id:"BallyBand"}, 
+  {name: "Hanger / J Hook",         id:"Hanger"}, 
+  {name: "RFID Chip / tag",         id:"RFIDtag"}, 
+  {name: "Inlay Card",              id:"Inlay"}, 
+  
 ];
 
 const RowDetails_FactoryPack = [ 
@@ -49,6 +57,8 @@ const RowDetails_FactoryPack = [
   {name: "Twill Tape",              id:"Twill"}, 
   {name: "Bally Band",              id:"BallyBand"}, 
   {name: "Hanger / J Hook",         id:"Hanger"}, 
+  {name: "Basic Carton",            id:"BasicCarton"}, 
+  {name: "Fancy Carton",            id:"FancyCarton"},
   {name: "RFID Chip / tag",         id:"RFIDtag"}, 
 ];
 
@@ -81,7 +91,7 @@ const Catorgies = ["Fitted Sheet", "Towels", "Blanket","Mattress Cover", "Appare
 const piece = new Piece("normal")
 
 // Function Call
-addColumn_Catories(true);
+addColumn_Catories();
 addColumn_YarnMixture();
 addColumn_yarnDetails(1);
 addColumn_Waste();
@@ -94,7 +104,6 @@ Store_onChange();
 // class calling
 
 piece.toString();
-storeType.toString();
 
 // Function Defination
 function getDocument(id) {
@@ -134,23 +143,19 @@ function addHead_toTable(head){
 }
 
 // Product Catorgies
-function addColumn_Catories(params) {
+function addColumn_Catories() {
   let Tempate = "";
-  
-  
-  if(params){
-    Catorgies.forEach(element => {
-      Tempate += `
-      <span class="RadioCatorgy">
-        <input type='radio' name='Product' value='${element}' onclick="onChange_Catories('${element}')" required />
-        <label for='${element}'>${element}</label>
-      </span>` 
-    });
-  } 
-  document.getElementById("ProductCategor").innerHTML = (Tempate);
+
+  Catorgies.forEach(element => {
+    Tempate += ` <option value='${element}' >${element}</option>` 
+  });
+
+  getDocument("ProductCategory").innerHTML += Tempate;
 }
 
-function onChange_Catories(type){
+function onChange_Catories(){
+  let type = getDocument("basicInfo").querySelector("select[name='ProductCategory']").value;
+
   if(type != piece.type){
     piece.remove();
 
@@ -172,17 +177,16 @@ function addColumn_YarnMixture(){
   let temp = ``;
   let noOfYarn = 6;
 
-  for (let i = 0; i < noOfYarn; i++) {
-    temp += `<span class="RadioCatorgy">
-                <input type="radio" name="YarnMixture" onclick="onYarnChange(${i+1})" value="${i+1}" ${i==0 ? `checked="checked"`: `` }>
-                <label for="${i+1}">${i+1}</label>
-            </span>`;
+  for (let i = 1; i <= noOfYarn; i++) {
+    temp += ` <option value='${i}' >${i}</option>`;
   }
-  document.getElementById("YarnMixtureCount").innerHTML = (temp);
+  document.getElementById("YarnMixture").innerHTML = (temp);
 }
 
 // Yarn Details Table
-function onYarnChange(value) {
+function onChange_YarnMixture() {
+  let value = getDocument("basicInfo").querySelector("select[name='YarnMixture']").value;
+
   noOfColumn_yarnDetails = value;
   addColumn_yarnDetails(value);
 }
@@ -453,6 +457,7 @@ function setTotal_Finance(id, Percentage, value1, value2){
   return result;
 }
 
+
 function setTotal_Customer(){
   let ids_Array = ["TotalFinance", "TotalOperatingCost", "TotalNetCost"];
   let temp = 0, temp2 = 0;
@@ -461,10 +466,8 @@ function setTotal_Customer(){
     temp += parseInt(getDocument(`${element}_Piece`).innerHTML)
     temp2 += parseInt(getDocument(`${element}_KG`).innerHTML)
   });
-
-  getDocument(`TotalFOBCost_Piece`).innerHTML = temp;
-  getDocument(`TotalFOBCost_KG`).innerHTML = temp2;
 }
+
 
 // Other CMT Cost
 function getOtherCMT(){

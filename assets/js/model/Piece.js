@@ -5,11 +5,12 @@ const RowDetails_Peice = [
 ];
 
 const RowDetails_PeiceApparel = [
-  {name: "Body / Chest",  id: "Body",  mulipltier: 2, value: 2},
-  {name: "Arm",           id: "Arm",   mulipltier: 2, value: 2},
-  {name: "Hood",          id: "Hood",  mulipltier: 2, value: 1},
-  {name: "Pocket",        id: "Pocket",mulipltier: 2, value: 1},
-  {name: "RIB Percentage",id: "RIB",   mulipltier: 1, value: 1}
+  {name: "Per piece GSM & Spec Information",  id: "GSM",   mulipltier: 0.5, value: 1},
+  {name: "Body / Chest",                      id: "Body",  mulipltier: 2, value: 2},
+  {name: "Arm",                               id: "Arm",   mulipltier: 2, value: 2},
+  {name: "Hood",                              id: "Hood",  mulipltier: 2, value: 1},
+  {name: "Pocket",                            id: "Pocket",mulipltier: 2, value: 1},
+  {name: "RIB Percentage",                    id: "RIB",   mulipltier: 1, value: 1}
 ];
 
 class Piece {
@@ -113,9 +114,9 @@ class Piece {
             "<td><input type='number' id='Apparel_"+row.id+"_W' name='"+row.id+"_W' placeholder='Enter "+row.name+" Width' min='0' onchange='onChange(0)'></td>"+
             "<td><input type='number' id='Apparel_"+row.id+"_H' name='"+row.id+"_H' placeholder='Enter "+row.name+" length' min='0'  onchange='onChange(0)'></td>" : 
             
-            "<td colspan='2'><input type='number' id='Apparel_"+row.id+"_P' name='"+row.id+"' placeholder='Enter "+row.name+"' onchange='onChange(0)'></td>"
+            ("<td colspan='"+ row.mulipltier == 0.5 ?3 :2+"'><input type='number' id='Apparel_"+row.id+"_P' name='"+row.id+"' placeholder='Enter "+row.name+"' onchange='onChange(0)'></td>")
             }
-            <td>0</td>
+            ${row.mulipltier == 0.5 ? "": "<td>0</td>"}
           </tr>
         `;
       });

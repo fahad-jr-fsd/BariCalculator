@@ -48,7 +48,7 @@
               <tr>
                 <td>1.</td>
                 <td>Employee Name</td>
-                <td><input required type="text" name="Employee Name" placeholder="Enter Your/Employee Name"/></td>
+                <td><input required type="text" name="Employee Name" placeholder="Enter Employee Name"/></td>
               </tr>
               <tr>
                 <td>2.</td>
@@ -58,18 +58,26 @@
               <tr>
                 <td>3.</td>
                 <td>Product Type</td>
-                <td id="ProductCategor"></td>
+                <td>
+                  <select name="ProductCategory" id="ProductCategory" onclick="onChange_Catories()" required  >
+                    
+                  </select>
+                </td>
               </tr>
               <tr>
                 <td>4.</td>
-                <td>Yarn Mixture</td>
-                <td id="YarnMixtureCount"></td>
+                <td>No of Yarn</td>
+                <td>
+                  <select name="YarnMixture" id="YarnMixture" onclick="onChange_YarnMixture()" required  >
+                    
+                  </select>
+                </td>
               </tr>
               <tr>
                 <td>5.</td>
                 <td>Stock Type</td>
                 <td>
-                  <select name="StockType" onclick="Store_onChange()" >
+                  <select name="StockType" onclick="Store_onChange()" required>
                     <option value="Open Stock" checked>Open Stock</option>
                     <option value="Per Pack">Per Pack</option>
                   </select>
@@ -86,9 +94,13 @@
                 <td>Currency Conversion</td>
                 <td>
                   <span class="doubleInput" id="currency">
-                    <input type="text" placeholder="Enter Currency name" name="CurrencyName" disabled> => 
+                    <select name="StockType" onclick="Store_onChange()" required>
+                      <option value="Open Stock" checked>$ Dollar</option>
+                      
+                    </select>
                     <input type="number"  placeholder="Enter Currency rate" min="1" step="0.01" name="CurrencyRate" disabled>
                   </span>
+
                 </td>
               </tr>
             </tbody>
@@ -159,15 +171,15 @@
                   </tr>
                   <tr>
                     <td>3</td>
-                    <td>Weaving / Knitting Cost</td>
-                    <td><input type="number" id="Knitting" name="Knitting" placeholder="Knitting Cost per Piece" min="0"
+                    <td>Weaving / Knitting Cost Per Kg</td>
+                    <td><input type="number" id="Knitting" name="Knitting" placeholder="Knitting Cost Per Kg" min="0"
                         onchange="onChange_Fabric()" required /></td>
                   </tr>
                   <tr>
                     <td>4</td>
-                    <td>Fabric Dying Cost</td>
+                    <td>Fabric Dying Cost Per Kg</td>
                     <td><input type="number" id="FabriceDying" name="Fabrice Dying"
-                        placeholder="Fabrice Dying Cost per Piece" min="0" onchange="onChange_Fabric()" required /></td>
+                        placeholder="Fabrice Dying Cost Per Kg" min="0" onchange="onChange_Fabric()" required /></td>
                   </tr>
                   <tr>
                     <th></th>
@@ -188,6 +200,34 @@
                     <th>Per Piece Fabric Cost: </th>
                     <th><span id="FabriceCost">0</span> PKR Per Piece</th>
                   </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <!-- Other CMT -->
+            <div class="col col-md-12" id="CMT_Pack" style="display: none;">
+              <table class="table table-bordered" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th colspan="4">6.2. CMT Cost Per Pack</th>
+                  </tr>
+    
+                  <tr>
+                    <th style="width: 5%;"></th>
+                    <th>Categories</th>
+                    <th>Per Pack Cost</th>
+                  </tr>
+                </thead>
+                <tbody id="CMTPack">
+
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th>Total CMT Cost</th>
+                    <th id="TotalCMTCost_Pack">0</th>
+                  </tr>
+    
                 </tfoot>
               </table>
             </div>
@@ -299,132 +339,74 @@
             </div> -->
         </div>
 
-        <!-- Fabric + Operating + Finance -->
-        <div class="col COL-MD-6">
-          <div class="row" id="row3">
+          <!-- Fabric + Operating + Finance -->
+          <div class="col COL-MD-6">
+            <div class="row" id="row3">
 
-            <!-- Waste -->
-            <div class="col col-md-12">
-              <table class="table table-bordered" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th colspan="4">4. Production Wastages</th>
-                  </tr>
-                  <tr>
-                    <th style="width: 5%;"></th>
-                    <th>Categories</th>
-                    <th>Percentages</th>
-                    <th>Cost</th>
-                  </tr>
-                </thead>
-                <tbody id="WasteBody">
-                </tbody>
+              <!-- Waste -->
+              <div class="col col-md-12">
+                <table class="table table-bordered" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th colspan="4">4. Production Wastages</th>
+                    </tr>
+                    <tr>
+                      <th style="width: 5%;"></th>
+                      <th>Categories</th>
+                      <th>Percentages</th>
+                      <th>Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody id="WasteBody">
+                  </tbody>
 
-                <tfoot>
-                  <tr>
-                    <th></th>
-                    <th>Total Waste</th>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>Total Waste</th>
 
-                    <td><span id="Wtotal">0</span> %</td>
-                    <th><span id="Wtotal_Cost">0</span> PKR</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
+                      <td><span id="Wtotal">0</span> %</td>
+                      <th><span id="Wtotal_Cost">0</span> PKR</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+                
+              <!-- CMT -->
+              <div class="col col-md-12">
+                <table class="table table-bordered" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th colspan="4">6.1. CMT Cost Per Piece</th>
+                    </tr>
+      
+                    <tr>
+                      <th style="width: 5%;"></th>
+                      <th>Categories</th>
+                      <th>Per PC(<span id="PerPiece"></span> gram)</th>
+                      <th>Per Kg(<span id="Perkg"></span> Piece)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="NetCost">
+                    
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>Total CMT Cost</th>
+                      <th id="TotalNetCost_Piece">0</th>
+                      <th id="TotalNetCost_KG">0</th>
+                    </tr>
+      
+                  </tfoot>
+                </table>
+              </div>
+
               
-            <!-- CMT -->
-            <div class="col col-md-12">
-              <table class="table table-bordered" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th colspan="4">6.1. CMT Cost Per Piece</th>
-                  </tr>
-    
-                  <tr>
-                    <th style="width: 5%;"></th>
-                    <th>Categories</th>
-                    <th>Per PC(<span id="PerPiece"></span> gram)</th>
-                    <th>Per Kg(<span id="Perkg"></span> Piece)</th>
-                  </tr>
-                </thead>
-                <tbody id="NetCost">
-                  
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th></th>
-                    <th>Total CMT Cost</th>
-                    <th id="TotalNetCost_Piece">0</th>
-                    <th id="TotalNetCost_KG">0</th>
-                  </tr>
-    
-                </tfoot>
-              </table>
-            </div>
-
-            <!-- Other CMT -->
-
-            <div class="col col-md-12" id="CMT_Pack" style="display: none;">
-              <table class="table table-bordered" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th colspan="4">6.2. CMT Cost Per Pack</th>
-                  </tr>
-    
-                  <tr>
-                    <th style="width: 5%;"></th>
-                    <th>Categories</th>
-                    <th>Per Pack Cost(<span id="PerPiece"></span> Piece)</th>
-                  </tr>
-                </thead>
-                <tbody id="CMTPack">
-
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th></th>
-                    <th>Total CMT Cost</th>
-                    <th id="TotalCMTCost_Pack">0</th>
-                  </tr>
-    
-                </tfoot>
-              </table>
             </div>
           </div>
+
         </div>
-
-      </div>
-
-      <div class="row" id="row4">
-        <div class="col col-12">
-          <table class="table table-bordered" id="finalCost">
-            <thead>
-              <tr>
-                <th colspan="4">10. Final Price For Customer</th>
-              </tr>
-
-              <tr>
-                <th style="width: 5%;"></th>
-                <th style="width: 25%;">Title</th>
-                <th style="width: 25%;">Per PC</th>
-                <th style="width: 25%;">Per Kg</th>
-              </tr>
-            </thead>
-            <tbody id="NetCost">
-              <tr>
-                <td>1</td>
-                <td>Cost</td>
-                <th id="TotalFOBCost_Piece">0 PKR</th>
-                <th id="TotalFOBCost_KG">0 PKR</th>
-              </tr>
-
-            </tbody>
-
-          </table>
-        </div>
-      </div>
-     
-
         <input type="submit" value="Submit" id="Submit" disabled /><br />
 
     </form>

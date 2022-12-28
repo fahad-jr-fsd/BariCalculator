@@ -84,32 +84,21 @@ class StoreType{
 
 
 function Store_onChange(){
-  let match = getDocument("basicInfo").querySelector("select[name='StockType']").value == "Open Stock" ? true : false;
-  if(currentItem != getDocument("basicInfo").querySelector("select[name='StockType']").value){
+  let dom = getDocument("basicInfo").querySelector("select[name='StockType']")
+  let match = dom.value == "Open Stock" ? true : false;
+  if(currentItem != dom.value){
     if(match){
-      RowDetails_Factory.push(     
-          {name: "TagPin",                  id:"TagPin"}, 
-          {name: "Poly Bag",                id:"PolyBag"}, 
-          {name: "Twill Tape",              id:"Twill"}, 
-          {name: "Bally Band",              id:"BallyBand"}, 
-          {name: "Hanger / J Hook",         id:"Hanger"}, 
-          {name: "RFID Chip / tag",         id:"RFIDtag"}, 
-      );
-  
-      addColumn_NetCost(RowDetails_Factory);
       getDocument("CMT_Pack").style.display = "none";
-  
-    }else{
-
-      getDocument("CMT_Pack").style.display = "inline";
-  
-      let sub = RowDetails_Factory.splice(12, 6);
+      document.querySelector(".displayNone").style.display = "none";
       
-      addColumn_NetCost(RowDetails_Factory);
-      addColumn_CMTCost(sub);
+      
+    }else{
+      getDocument("CMT_Pack").style.display = "inline";
+      document.querySelector(".displayNone").style.display = "table-row";
+      
+      addColumn_CMTCost(RowDetails_FactoryPack);
     }
-    currentItem = getDocument("basicInfo").querySelector("select[name='StockType']").value;
+    currentItem = dom.value;
   }
 
-  // storeType.toString();
 }
