@@ -114,7 +114,7 @@ class Piece {
             "<td><input type='number' id='Apparel_"+row.id+"_W' name='"+row.id+"_W' placeholder='Enter "+row.name+" Width' min='0' onchange='onChange(0)'></td>"+
             "<td><input type='number' id='Apparel_"+row.id+"_H' name='"+row.id+"_H' placeholder='Enter "+row.name+" length' min='0'  onchange='onChange(0)'></td>" : 
             
-            ("<td colspan='"+ row.mulipltier == 0.5 ?3 :2+"'><input type='number' id='Apparel_"+row.id+"_P' name='"+row.id+"' placeholder='Enter "+row.name+"' onchange='onChange(0)'></td>")
+            ("<td colspan='2'><input type='number' id='Apparel_"+row.id+"_P' name='"+row.id+"' placeholder='Enter "+row.name+"' onchange='onChange(0)'></td>")
             }
             ${row.mulipltier == 0.5 ? "": "<td>0</td>"}
           </tr>
@@ -145,28 +145,34 @@ class Piece {
 
 // This function will be called when the user onchange on the add button
 function onChange(isApparel){
+  // Apparel
   if(isApparel == 0){
-    // Apparel
+    let gsm = getDocument("Apparel_GSM_P").value;
     let total = 0;
+
+
     RowDetails_PeiceApparel.map((item) => {
       if(item.mulipltier == 2){
         let w = getDocument("Apparel_"+item.id+"_W").value;
         let h = getDocument("Apparel_"+item.id+"_H").value;
-        let t = (w * h) * item.value;
+        let t = ((((w * h) * item.value) / 10000) * gsm);
+
         total += t;
-        getDocument("Apparel_"+item.id+"_H").parentElement.nextElementSibling.innerHTML = t;
+        getDocument("Apparel_"+item.id+"_H").parentElement.nextElementSibling.innerHTML = parseFloat(t).toFixed(2);;
+      }
+      else if(item.mulipltier == 0.5){
+        console.log();
       }
       else{
         let p = getDocument("Apparel_"+item.id+"_P").value;
         let t = (p * .01) * total;
         total += t;
-        getDocument("Apparel_"+item.id+"_P").parentElement.nextElementSibling.innerHTML = t;
+        getDocument("Apparel_"+item.id+"_P").parentElement.nextElementSibling.innerHTML = parseFloat(t).toFixed(2);
+        
       }
 
-      total = parseFloat(total).toFixed(2);
-
-      getDocument("Total_Peices").innerHTML = total;
-      getDocument("PerWeight").value = total;
+      getDocument("Total_Peices").innerHTML = parseFloat(total).toFixed(2);
+      getDocument("PerWeight").value = parseFloat(total).toFixed(2);
     });
   }
 

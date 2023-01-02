@@ -1,4 +1,5 @@
 <?php 
+
   if($_POST == []) {
       header('Location: ./index.html');
   }
@@ -9,42 +10,54 @@ $WasteArray = [
     // Name, Id
     // ['Yarn', 'Yarn'],
     ['Dying Process', 'Dying'],
-    ['Cutting / Stitching / B', 'B%'],
+    ['Cutting / Stitching / B%', 'B%'],
     ['Weaving / Knitting Yarn', 'Weaving'],
     ['Yarn Dying', 'Yarn_Dying'],
-    ['Shairing', 'Shairing'],
+    ['Shairing / Rising', 'Shairing'],
 ];
 
 $RowDetails_Operation = [
-    ['3rd Party Inspection', 'Inspection', 3],
-    ['3rd Party Testing', 'Testing', 3],
-    ['ToP / PP Sample', 'Sample', 3],
-    ['Factory Fix Over Head', 'Factory', 10],
-    ['Sales / Marteking / Exhibition', 'Exhibition', 3],
-    ['Dosmestic Post Handing', 'Dosmestic', 1.5],
-    ['Export Tax', 'ExportTax', 1],
-    ['Sales Commission', 'SalesCommission', $_POST['SalesCommission']],
+    ['3rd Party Inspection', 'Inspection'],
+    ['3rd Party Testing', 'Testing'],
+    ['ToP / PP Sample', 'Sample'],
+    ['Factory Fix Over Head', 'Factory'],
+    ['Sales / Marketing / Exhibition', 'Exhibition'],
+    ['Domestic Post Handing', 'Domestic'],
+    ['Export Tax', 'ExportTax'],
+    ['Sales Commission', 'SalesCommission'],
 ];
 
 $RowDetails_Factory = [
-    ['Stitching', 'Stitching'],
-    ['Stitching Thread', 'StitchingThread'],
-    ['Lable', 'Lable'],
-    ['Embriodery / Print', 'Embriodery'],
-    ['Poly Bag', 'PolyBag'],
-    ['TagPin', 'TagPin'],
-    ['Hanger / J Hook', 'Hanger'],
-    ['Bally Band', 'BallyBand'],
-    ['Twill Tape', 'Twill'],
-    ['Basic Carton', 'BasicCarton'],
-    ['Fancy Carton', 'FancyCarton'],
-    ["Elastic",                 "Elastic"], 
-    ["Elastic Band",            "ElasticBand"], 
-    ["Tag Card",                "TagCard"], 
-    ["RFID Chip / tag",         "RFIDtag"], 
-    ["Zipper",                  "Zipper"], 
-    ["Velcru",                  "Velcru"], 
-    ["Garment Wash",            "GarmentWash"], 
+  ["Stitching"               , "Stitching"], 
+  ["Lable"                   , "Lable"], 
+  ["Stitching Thread"        , "StitchingThread"],
+  ["Poly Bag"                , "PolyBag"], 
+  ["Zipper"                  , "Zipper"], 
+  ["Velcru"                  , "Velcru"], 
+  ["Elastic"                 , "Elastic"], 
+  ["Tag Card"                , "TagCard"], 
+  ["Garment Wash"            , "GarmentWash"],
+  ["Elastic Band"            , "ElasticBand"], 
+  ["Basic Carton"            , "BasicCarton"], 
+  ["Fancy Carton"            , "FancyCarton"], 
+  ["Embriodery / Print"      , "Embriodery"], 
+  ["TagPin"                  , "TagPin"], 
+  ["Twill Tape"              , "Twill"], 
+  ["Belly Band"              , "BallyBand"], 
+  ["Hanger / J Hook"         , "Hanger"], 
+  ["RFID Chip / tag"         , "RFIDtag"], 
+  ["Inlay Card"              , "Inlay"], 
+];
+
+$RowDetails_FactoryPack = [ 
+  ["TagPin",                  "TagPin"], 
+  ["Poly Bag",                "PolyBag"], 
+  ["Twill Tape",              "Twill"], 
+  ["Belly Band",              "BallyBand"], 
+  ["Hanger / J Hook",         "Hanger"], 
+  ["Basic Carton",            "BasicCarton"], 
+  ["Fancy Carton",            "FancyCarton"],
+  ["RFID Chip / tag",         "RFIDtag"]
 ];
 
 $RowDetails_Piece = [
@@ -54,6 +67,7 @@ $RowDetails_Piece = [
 ];
 
 $RowDetails_ApparelPiece = [
+  ["Per piece GSM & Spec Information",  "GSM",    0.5,  1],
   ["Body / Chest",  "Body",   2,  2],
   ["Arm",           "Arm",    2,  2],
   ["Hood",          "Hood",   2,  1],
@@ -61,8 +75,7 @@ $RowDetails_ApparelPiece = [
   ["RIB Percentage","RIB",    1,  .01]
 ];
 
-
-if(isset($_POST["isCurrency"])){
+if(!isset($_POST["isCurrency"])){
   $_POST["isCurrency"] = "OFF";
 }
 
@@ -80,11 +93,12 @@ function roundPost ($value){
   $BasicInfo = [
     'EName' => $d['Employee_Name'],
     'CName' => $d['Client_Name'],
-    'PName' => $d['Product'],
+    'PName' => $d['Product_Category'],
+    "PDesc"  => $d["Product_Description"],
     'NYarn' => $d['YarnMixture'],
-    'SType' => $d["Stock"].($_POST["Stock"] == "Per Pack" ? " ( PackSize = ".$d["PackSize"]." )": ""),
-    "isC" => $d["isCurrency"] == "on" ? ("<tr><td>6. </td><td>Currency Conversion(".$d["CurrencyName"].")</td><td>1 ".$d["CurrencyName"]." => ".$d["CurrencyRate"]." PKR </td></tr>"):"",
-    "Date" => date('l jS \of F Y'),
+    'SType' => $d["StockType"].($d["StockType"] == "Per Pack" ? " ( PackSize = ".$d["PackSize"]." )": ""),
+    "isC"   => $d["isCurrency"] == "on" ? ("<tr><td>6. </td><td>Currency Conversion(".$d["CurrencyName"].")</td><td>1 ".$d["CurrencyName"]." => ".$d["CurrencyRate"]." PKR </td></tr>"):"",
+    "Date"  => date('l jS \of F Y'),
   ];
 
   function ProductInfo($index){
@@ -129,7 +143,8 @@ function roundPost ($value){
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/styles.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         
 
@@ -244,7 +259,7 @@ function roundPost ($value){
                   <table class="table" id="basicInfo">
                     <thead>
                       <tr>
-                        <th colspan="6">Basic Information</th>
+                        <th colspan="6">1. Basic Information</th>
                       </tr>
                       <tr>
                         <th style="width: 5%;"></th>
@@ -270,12 +285,17 @@ function roundPost ($value){
                       </tr>
                       <tr>
                         <td>4.</td>
+                        <td>Product Type</td>
+                        <td><?php echo $BasicInfo['PDesc'] ?></td>
+                      </tr>
+                      <tr>
+                        <td>5.</td>
                         <td>No of Yarn</td>
                         <td><?php echo $BasicInfo['NYarn'] ?></td>
                       </tr>
 
                       <tr>
-                        <td>5.</td>
+                        <td>6.</td>
                         <td>Stock Type</td>
                         <td><?php echo $BasicInfo['SType'] ?></td>
                       </tr>
@@ -284,7 +304,7 @@ function roundPost ($value){
                       
                       ?>
                       <tr>
-                        <td><?php echo ($BasicInfo['isC'] != "" ? "7. ":"6. ")?></td>
+                        <td><?php echo ($BasicInfo['isC'] != "" ? "8. ":"7. ")?></td>
                         <td>Date</td>
                         <td><?php echo $BasicInfo['Date'] ?></td>
                       </tr> 
@@ -300,7 +320,7 @@ function roundPost ($value){
                   <table class="table" cellspacing="0">
                     <thead>
                       <tr >
-                        <th colspan="6">Product Information(<?php echo $_POST['YarnMixture']; ?>)</th>
+                        <th colspan="6">2. Product Information (<?php echo $_POST['YarnMixture']; ?>)</th>
                       </tr>
 
                       <tr>
@@ -338,14 +358,14 @@ function roundPost ($value){
                   <table class="table" cellspacing="0">
                     <thead>
                       <tr>
-                        <th colspan="4">Per Piece Information</th>
+                        <th colspan="4">3. Per Piece Information</th>
                       </tr>
 
                       <tr>
                         <th style="width: 5%;"></th>
                         <th>Categories</th>
                         
-                        <?php echo ($_POST["Product"] == "Apparel" ? "<th>Width</th><th>Length</th><th>Total</th>": "<th></th>")?>
+                        <?php echo ($_POST["ProductCategory"] == "Apparel" ? "<th>Width</th><th>Length</th><th>Total</th>": "<th></th>")?>
                       </tr>
                     </thead>
                     <tbody>
@@ -360,22 +380,26 @@ function roundPost ($value){
                     function get($value){
                       if($value[2] == 1){
                         $GLOBALS["PerPieceTotal"] = $GLOBALS["PerPiece"] * ($_POST[$value[1]] * .01);
-                        $temp = "<td>".$_POST[$value[1]]."%</td>" ;
-                      }else {
-                        $GLOBALS["PerPieceTotal"] = $_POST[$value[1]."_W"] * $_POST[$value[1]."_H"] * $value[3];
+                        $temp = "<td colspan='2'>".$_POST[$value[1]]."%</td>" ;
+                      }
+                      else if($value[2] == 0.5){
+                        $temp = "<td colspan='2'>".$_POST[$value[1]]."</td>" ;
+                      }
+                      else {
+                        $GLOBALS["PerPieceTotal"] = (($_POST[$value[1]."_W"] * $_POST[$value[1]."_H"] * $value[3]) / 10000) * $_POST["GSM"];
                         $temp = "<td>".$_POST[$value[1]."_W"]."</td><td>".$_POST[$value[1]."_H"]."</td>";
                       }
 
                       return $temp;
                     }
 
-                    if($_POST["Product"] == "Apparel"){
+                    if($_POST["ProductCategory"] == "Apparel"){
                       foreach ($RowDetails_ApparelPiece as $key => $value) {
                         echo "<tr>
                             <td>".($key + 1)."</td>
                             <td>".$value[0]." x ".$value[3]."</td>
                             ".get($value)."
-                            <td>".$PerPieceTotal."</td>
+                            <td>$PerPieceTotal</td>
                           </tr>";
                           $PerPiece += $PerPieceTotal;
                       }
@@ -393,8 +417,10 @@ function roundPost ($value){
 
                         $PerPiece = (($height * $width) / 10000) * $gsm;
                     }
-                    $temp = $_POST["Product"] == "Apparel" ? 'colspan=3':'';
-                    echo "</tbody><tfoot><tr><th></th><th $temp>Per Weight ".$_POST["Product"] == "Mattress Cover" ? ' X 2 layers':''."</th><th> ".round($PerPiece * ($_POST["Product"] == "Mattress Cover" ? 2 : 1), 2)." gram</th></tr></tfoot>";
+                    $temp = $_POST["ProductCategory"] == "Apparel" ? 'colspan=3':'';
+                    $text = $_POST["ProductCategory"] == "Mattress Cover" ? ' X 2 layers': '';
+                    $PerPiece = $PerPiece * ($_POST["ProductCategory"] == "Mattress Cover" ? 2 : 1);
+                    echo "</tbody><tfoot><tr><th></th><th $temp>Per Weight $text </th><th> ".round($PerPiece, 2)." gram</th></tr></tfoot>";
                     ?>
                   </table>
                 </div>
@@ -406,7 +432,7 @@ function roundPost ($value){
                     <table class="table" cellspacing="0">
                       <thead>
                         <tr >
-                          <th colspan="4">Production Wastages</th>
+                          <th colspan="4">4. Production Wastages</th>
                         </tr>
                         <tr>
                           <th style="width: 5%;"></th>
@@ -465,7 +491,7 @@ function roundPost ($value){
                   <table class="table" cellspacing="0">
                     <thead>
                       <tr >
-                        <th colspan="3">Fabric Cost Information</th>
+                        <th colspan="3">5. Fabric Cost Information</th>
                       </tr>
 
                       <tr>
@@ -483,22 +509,21 @@ function roundPost ($value){
                       <tr>
                         <td>2</td>
                         <td>Weaving / Knitting Cost</td>
-                        <td><?php echo $_POST['Knitting']; ?></td>
+                        <td><?php echo $_POST['Knitting']; ?> PKR Per KG</td>
                       </tr>
                       <tr>
                         <td>3</td>
                         <td>Fabric Dying Cost</td>
-                        <td><?php echo $_POST['Fabrice_Dying']; ?></td>
+                        <td><?php echo $_POST['Fabrice_Dying']; ?> PKR Per KG</td>
                       </tr>
                       <tr>
                         <td>4</td>
                         <td>Total Waste Cost</td>
-                        <td><?php echo $totalWaste; ?></td>
+                        <td><?php echo $totalWaste; ?> PKR Per KG</td>
                       </tr>
                       <tr>
                         <th></th>
-                        <th>Total Fabric Cost <strong class='detailsHeading'>:</strong>
-                        </th>
+                        <th>Total Fabric Cost</th>
                         <?php
                             $FabricCost_KG = round($total + $_POST['Knitting'] + $_POST['Fabrice_Dying'] + $totalWaste, 2);
                             $FabricCost_PC = round($FabricCost_KG * (round($PerPiece, 2) / 1000), 2);
@@ -535,15 +560,13 @@ function roundPost ($value){
                   <table class="table" cellspacing="0">
                     <thead>
                       <tr>
-                        <th colspan="5">CMT Cost</th>
+                        <th colspan="5">6.1 CMT Cost (Without packing)</th>
                       </tr>
 
                       <tr>
                         <th style="width: 5%;"></th>
                         <th style="width: 25%;">Categories</th>
-                        <th style="width: 25%;">Per PC(<span id="PerPiece"><?php echo $_POST[
-                            'Per_piece_Weight'
-                        ]; ?></span> gram)</th>
+                        <th style="width: 25%;">Per PC(<span id="PerPiece"><?php echo $_POST['Per_piece_Weight']; ?></span> gram)</th>
                         <th style="width: 25%;">Per Kg(<span id="Perkg"><?php echo $coverterKG; ?></span> Piece)</th>
                       </tr>
                     </thead>
@@ -565,20 +588,14 @@ function roundPost ($value){
                           $temp = round($_POST[$value[1]] * $coverterKG, 2);
                           echo "<tr>
                                 <td>$counter</td>
-                                <td>" .
-                              $value[0] .
-                              "</td>
-                                <td>" .
-                              $_POST[$value[1]] .
-                              "</td>
-                                <td>" .
-                              $temp .
-                              "</td>
+                                <td>" .$value[0] ."</td>
+                                <td>" .$_POST[$value[1]] ."</td>
+                                <td>" .$temp ."</td>
                               </tr>";
 
                           $counter++;
-                          $Factory_KG += $_POST[$value[1]];
-                          $Factory_PC += $temp;
+                          $Factory_KG += $temp;
+                          $Factory_PC += $_POST[$value[1]];
                       }
                       ?>
 
@@ -586,7 +603,7 @@ function roundPost ($value){
                     <tfoot>
                       <tr>
                         <th></th>
-                        <th>Total CMT Cost</th>
+                        <th>Total CMT Cost (Without packing)</th>
                         <th><?php echo round($Factory_PC,2); ?></th>
                         <th><?php echo round($Factory_KG,2); ?> </th>
                       </tr>
@@ -594,11 +611,62 @@ function roundPost ($value){
                     </tfoot>
                   </table>
                 </div>
+
               </div>
           </div>
 
           <!-- Page 3 -->
           <div class="row page">
+            <?php 
+
+                $otherCMT = 0;
+                $_PC = 0;
+                $_KG = 0;
+
+                if ($_POST['StockType'] != "Open Stock") {
+                  echo "<div class='col col-12'>
+                  <table class='table' cellspacing='0'>
+                    <thead>
+                      <tr>
+                        <th colspan='5'>6.2 Other CMT Cost</th>
+                      </tr>
+
+                      <tr>
+                        <th style='width: 5%;'></th>
+                        <th style='width: 25%;'>Categories</th>
+                        <th style='width: 25%;'>Per Pack Cost(<span id='PerPiece'>".$_POST["PackSize"]." Piece</span>)</th>
+                      </tr>
+                    </thead>
+
+                  <tbody>";
+
+                  $counter = 1;
+                  
+                  foreach ($RowDetails_FactoryPack as $key => $value) {
+                    $temp = round($_POST[$value[1]] * $coverterKG, 2);
+                    echo '<tr>
+                          <td>'.$counter.'</td>
+                          <td>'.$value[0].'</td>
+                          <td>'.$_POST[$value[1]."_CMT"] .'</td>
+                        </tr>';
+
+                    $counter++;
+                    $otherCMT += $_POST[$value[1]."_CMT"] ;
+                  }
+                
+                  echo "</tbody>
+                          <tfoot>
+                            <tr>
+                              <th></th>
+                              <th>Total CMT Cost</th>
+                              <th>".$otherCMT."</th>
+                            </tr>
+
+                          </tfoot>
+                        </table>
+                      </div>";
+                }            
+              ?>
             <!-- Net Operation  -->
             <div class="row">
               <div class="col col-md-12">                
@@ -606,7 +674,7 @@ function roundPost ($value){
                   <thead>
                     
                     <tr >
-                      <th colspan="6">Operating Cost</th>
+                      <th colspan="6">7. Operating Cost</th>
                     </tr>
 
                     <tr >
@@ -660,7 +728,7 @@ function roundPost ($value){
                 <table class="table" cellspacing="0">
                     <thead>
                       <tr >
-                        <th colspan="5">Finance / Coporate / GP</th>
+                        <th colspan="5">Finance / Corporate / GP</th>
                       </tr>
                       <tr >
                         <th style="width: 5%;"></th>
@@ -675,6 +743,8 @@ function roundPost ($value){
 
                         $days = $_POST['PaymentDays'];
 
+                        
+
                         $Finance_PC = $Operating_PC + $Factory_PC;
                         $Finance_KG = $Operating_KG + $Factory_KG;
 
@@ -687,11 +757,11 @@ function roundPost ($value){
                         $Payment_PC = $days * 0.01 * $Finance_PC;
                         $Payment_KG = $days * 0.01 * $Finance_KG;
 
-                        $Coporate_PC = $GP_PC + $RFinance_PC + $Payment_PC;
-                        $Coporate_KG = $GP_KG + $RFinance_KG + $Payment_KG;
+                        $Corporate_PC = $GP_PC + $RFinance_PC + $Payment_PC;
+                        $Corporate_KG = $GP_KG + $RFinance_KG + $Payment_KG;
 
-                        $Finance_PC = $Finance_PC + $Coporate_PC;
-                        $Finance_KG = $Finance_KG + $Coporate_KG;
+                        $Finance_PC = $Finance_PC + $Corporate_PC;
+                        $Finance_KG = $Finance_KG + $Corporate_KG;
                       ?>
 
                       <tr>
@@ -714,7 +784,7 @@ function roundPost ($value){
                         <td>3</td>
                         <td>Payment Terms</td>
                         <td>
-                          <?php echo ($days == 2 ? '30' : ($days == 4 ? '60': ($days == 6 ? '80' :'120'))) .' Days (' .$days .'%)'; ?>
+                          <?php echo ($days == 2 ? '30' : ($days == 4 ? '60': ($days == 6 ? '90' :'120'))) .' Days (' .$days .'%)'; ?>
                         </td>
                         <td><?php echo round($Payment_PC, 2); ?></td>
                         <td><?php echo round($Payment_KG, 2); ?></td>
@@ -725,13 +795,13 @@ function roundPost ($value){
                       
                       <tr>
                         <th></th>
-                        <th colspan="2">Total Finance / Coporate / GP</th>
+                        <th colspan="2">Total Finance / Corporate / GP</th>
                         <th><span><?php echo round(
-                            $Coporate_PC,
+                            $Corporate_PC,
                             2
                         ); ?></span> PKR</th>
                         <th><span><?php echo round(
-                            $Coporate_KG,
+                            $Corporate_KG,
                             2
                         ); ?></span> PKR</th>
                       </tr>
@@ -755,7 +825,7 @@ function roundPost ($value){
                       <th style="width: 25%;">Title</th>
                       <th style="width: 25%;">Per PC</th>
                       <th style="width: 25%;">Per Kg</th>
-                      <?php echo ($_POST["Stock"] == "Per Pack" ? "<th style='width: 25%;'>Per Pack</th>": "")?>
+                      <?php echo ($_POST["StockType"] == "Per Pack" ? "<th style='width: 25%;'>Per Pack</th>": "")?>
                     </tr>
                   </thead>
                   <tbody id="NetCost">
@@ -764,7 +834,7 @@ function roundPost ($value){
                       <th>Cost in PKR</th>
                       <td><?php echo round($Finance_PC, 2); ?> PKR Per PC</td>
                       <td><?php echo round($Finance_KG, 2); ?> PKR Per KG</td>
-                      <?php echo ($_POST["Stock"] == "Per Pack" ? "<td>".round($Finance_PC * $_POST["PackSize"], 2)." PKR Per Pack</td>": "")?>
+                      <?php echo ($_POST["StockType"] == "Per Pack" ? "<td>".round(($Finance_PC * $_POST["PackSize"]) + $otherCMT, 2)." PKR Per Pack</td>": "")?>
                     </tr>
                     <?php if($_POST["isCurrency"] == "on"){
                       echo "<tr>
@@ -772,7 +842,7 @@ function roundPost ($value){
                       <th>Cost in ".$_POST["CurrencyName"]."</th>
                       <td>".round(($Finance_PC) / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"]." Per PC</td>
                       <td>".round($Finance_KG / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"]." Per KG</td>
-                      ".($_POST["Stock"] == 'Per Pack' ? '<td>'.round(($Finance_PC * $_POST["PackSize"]) / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"].' Per Pack</td>':'')."</tr>";
+                      ".($_POST["StockType"] == 'Per Pack' ? '<td>'.round((($Finance_PC * $_POST["PackSize"]) + $otherCMT) / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"].' Per Pack</td>':'')."</tr>";
                     }?>
                   </tbody>
                   
