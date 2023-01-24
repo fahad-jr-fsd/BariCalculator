@@ -23,8 +23,8 @@
     </div>
     <div class="row">
       <div id="title" class="col col-md-12 d-flex flex-column justify-content-center">
-        <h1>PPCC Report</h1>
-        <strong class="d-flex justify-content-center">Pre Product Cost Calculator</strong>
+        <h1>PSCC Report</h1>
+        <strong class="d-flex justify-content-center">Pre Sales Cost Calculator</strong>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
                 <td>3.</td>
                 <td>Product Type</td>
                 <td>
-                  <select name="Product Category" id="ProductCategory" onclick="onChange_Catories()" required>
+                  <select name="ProductCategory" id="ProductCategory" onclick="onChange_Catories()" required>
 
                   </select>
                 </td>
@@ -95,6 +95,19 @@
                 <td>
                   <input name="PackSize" placeholder="Enter Per Pack Size">
                 </td>
+              </tr>
+              <tr>
+                  <td>8.</td>
+                  <td>Payment Terms (Days)</td>
+                  <td>
+                    <select name="PaymentDays" id="Payment_Percentage" onclick="getTotal_Finance()">
+                      <option value="2" checked>30 days (2%)</option>
+                      <option value="4">60 days (4%)</option>
+                      <option value="6">90 days (6%)</option>
+                      <option value="8">120 days (8%)</option>
+                    </select>
+                  </td>
+              </tr>
               <tr>
                 <td><input type="checkbox" name="isCurrency" id="IsCurrency" onclick="onChangeCurrenct()" /></td>
                 <td>Currency Conversion</td>
@@ -118,8 +131,8 @@
 
               <tr>
                 <th style="width: 5%;"></th>
-                <th>Type</th>
-                <th>Rate(lbs)</th>
+                <th style="width: 20%;">Type</th>
+                <th style="width: 20%;">Rate(lbs)</th>
                 <th>Rate(Kg)</th>
                 <th style="width: 10%;">Percentage</th>
                 <th>Total per Kg</th>
@@ -189,7 +202,7 @@
                   <td>5</td>
                   <td>Per piece weight (in gram)</td>
                   <td><input type="number" id="PerWeight" name="Per piece Weight" placeholder="Per Piece Weight (Gram)"
-                      min="0" step="0.01" onchange="onChange_Fabric()" required /></td>
+                      disabled min="0" step="0.01" onchange="onChange_Fabric()" required /></td>
                 </tr>
               </tbody>
               <tfoot>
@@ -280,44 +293,8 @@
                   <th>Per KG</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="FinanceCost">
 
-                <tr>
-                  <td>1</td>
-                  <td>Running Finance Cost</td>
-                  <td class="inputPercentage">
-                    <input type="number" id="Finance_Percentage" name="Finance" placeholder="Enter %" min="0"
-                      step="0.01" required />
-                  </td>
-                  <td id="Finance_PC"></td>
-                  <td id="Finance_KG"></td>
-                </tr>
-
-                <tr>
-                  <td>2</td>
-                  <td>Gross Profit</td>
-                  <td class="inputPercentage">
-                    <input type="number" id="GP_Percentage" name="GP" placeholder="Enter %" min="0" step="0.01"
-                      required />
-                  </td>
-                  <td id="GP_PC"></td>
-                  <td id="GP_KG"></td>
-                </tr>
-
-                <tr>
-                  <td>3</td>
-                  <td>Payment Terms (Days)</td>
-                  <td>
-                    <select name="PaymentDays" id="Payment_Percentage" onclick="getTotal_Finance()">
-                      <option value="2" checked>30 (2%)</option>
-                      <option value="4">60 (4%)</option>
-                      <option value="6">90 (6%)</option>
-                      <option value="8">120 (8%)</option>
-                    </select>
-                  </td>
-                  <td id="Payment_PC"></td>
-                  <td id="Payment_KG"></td>
-                </tr>
 
               </tbody>
               <tfoot>
@@ -333,15 +310,10 @@
             </table>
 
           </div>
-
-          <!-- Stock -->
-          <!-- <div class="col col-md-12" id="Stock">
-
-            </div> -->
         </div>
 
         <!-- Fabric + Operating + Finance -->
-        <div class="col COL-MD-6">
+        <div class="col col-md-6">
           <div class="row" id="row3">
 
             <!-- Waste -->
