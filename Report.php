@@ -42,7 +42,6 @@ $RowDetails_Factory = [
   ["RFID Chip / tag"         , "RFIDtag"], 
   ["Inlay Card"              , "Inlay"], 
   ["Bailing",                   "Bailing"],
-  ["Rebated / Defect Allowance ","rebated"],
 ];
 
 $RowDetails_FactoryPack = [ 
@@ -75,16 +74,16 @@ $RowDetails_Finance = [
   ["Bad Debts",                    "Debbs" ],
   ["Export Tax",                   "ExportTax" ],
   ["Air Freight",                    "Freight" ],
-  ["Gross Profit",                   "Gross Profit" ],
+  ["Gross Profit",                   "GrossProfit" ],
   ["Oceanus Sea Freight",                    "CFreight" ],
   ["Running Finance Cost",                   "Finance" ],
   ["Factory Fix Over Head",                    "Factory" ],
   ["Domestic Port Handing",                    "Domestic" ],
   ["Factoring / Insurance",                    "Insurance" ],
-  ["Other Country Custom Fee",                   "Custom Fee" ],
+  ["Other Country Custom Fee",                   "CustomFee" ],
   ["Sales / Marketing / Exhibition",                   "Exhibition" ],
-  ["Other Country online Holding Cost",                    "online Holding Cost" ],
-  ["Defective Allowance (on Custom Request)",                    "Defective Allowance" ],
+  ["Other Country online Holding Cost",                    "HoldingCost" ],
+  ["Defective Allowance (on Custom Request)",                    "DefectiveAllowance" ],
 ];
 
 if(!isset($_POST["isCurrency"])){
@@ -95,6 +94,8 @@ function roundPost ($value){
     return round($_POST[$value], 2);
 }
 
+
+$isPack = $_POST["StockType"] == "Per Pack";
 ?>
 
 
@@ -182,7 +183,7 @@ function roundPost ($value){
         filename:     'PCSC Report.pdf',
         image:        { type: 'jpeg', quality: 0.99,  },
         html2canvas:  { scale: 0.9, logging: true, dpi: 100, letterRendering: true, windowwidth: screen.width-100,},
-        jsPDF:        { unit: 'ex', format: 'A4', orientation: 'portrait'} //"mm", "cm", "in", "px", "pc", "em" or "ex"
+        jsPDF:        { unit: 'ex', format: 'A4', orientation: 'portrait'}
       };
 
       html2pdf().set(opt).from(element).save();
@@ -539,7 +540,7 @@ function roundPost ($value){
                   <table class="table" cellspacing="0">
                     <thead>
                       <tr>
-                        <th colspan="5">6.1 CMT Cost (Without packing)</th>
+                        <th colspan="5">6.1 CMT Cost <?php echo $isPack ? "(Without packing)": "" ?></th>
                       </tr>
 
                       <tr>
@@ -584,7 +585,7 @@ function roundPost ($value){
                     <tfoot>
                       <tr>
                         <th></th>
-                        <th>Total CMT Cost (Without packing)</th>
+                        <th>Total CMT Cost <?php echo ($isPack ? "(Without packing)": "") ?></th>
                         <th><?php echo round($Factory_PC,2); ?></th>
                         <th><?php echo round($Factory_KG,2); ?> </th>
                       </tr>
@@ -623,8 +624,7 @@ function roundPost ($value){
 
                   $counter = 1;
                   
-                  foreach ($RowDetails_FactoryPack as $key => $value) {
-                    $temp = round($_POST[$value[1]] * $coverterKG, 2);
+                  foreach ($RowDetails_FactoryPack as $value) {
                     echo '<tr>
                           <td>'.$counter.'</td>
                           <td>'.$value[0].'</td>
@@ -671,6 +671,7 @@ function roundPost ($value){
                     <?php
                     $Operating_KG = 0;
                     $Operating_PC = 0;
+                    $total = 1;
 
                     foreach ($RowDetails_Operation as $key => $value) {
                       if(isset($_POST[$value[1]."_isCheck"]) != 1){
@@ -679,7 +680,7 @@ function roundPost ($value){
                       
                       $Operating_KG += round(($_POST[$value[1]] / 100) * $Factory_KG, 2);
                       $Operating_PC += round(($_POST[$value[1]] / 100) * $Factory_PC, 2);
-
+                      $total += $_POST[$value[1]]; 
                       echo "<tr>
                               <td>" .($key + 1)."</td>
                               <td>" .$value[0]."</td>
@@ -693,9 +694,10 @@ function roundPost ($value){
                   <tfoot>
                     <tr>
                       <th></th>
-                      <th colspan="2">Total Operating Cost</th>
-                      <th><?php echo round($Operating_PC,2); ?></th>
-                      <th><?php echo round($Operating_KG,2); ?></th>
+                      <th colspan="1">Total Operating Cost</th>
+                      <th><?php echo round($total,2); ?> %</th>
+                      <th><?php echo round($Operating_PC,2); ?> PKR</th>
+                      <th><?php echo round($Operating_KG,2); ?> PKR/Kg</th>
                     </tr>
     
                   </tfoot>
@@ -721,16 +723,21 @@ function roundPost ($value){
                     </thead>
                     <tbody>
                     <?php
+                        
+                        $Finance_PC_ = $Operating_PC + $Factory_PC;
+                        $Finance_KG_ = $Operating_KG + $Factory_KG;
+                        
                         $Finance_PC = $Operating_PC + $Factory_PC;
                         $Finance_KG = $Operating_KG + $Factory_KG;
                         
                         $tempPc = 0;
                         $tempkg = 0;
+                        $totalpercent = 0;
 
                       
                         foreach ($RowDetails_Finance as $key => $value) {
-                          $tempkg = round(($_POST[$value[1]] / 100) * $Finance_KG, 2);
-                          $tempPc = round(($_POST[$value[1]] / 100) * $Finance_PC, 2);
+                          $tempkg = round(($_POST[$value[1]] / 100) * $Finance_KG_, 2);
+                          $tempPc = round(($_POST[$value[1]] / 100) * $Finance_PC_, 2);
     
                           echo "<tr>
                                   <td>" .($key + 1)."</td>
@@ -742,9 +749,9 @@ function roundPost ($value){
                         
                                 $Finance_PC += $tempPc;
                                 $Finance_KG += $tempkg;
+                                $totalpercent += $_POST[$value[1]];
 
                               }
-                      
                       ?>
                       
                     </tbody>
@@ -752,15 +759,13 @@ function roundPost ($value){
                       
                       <tr>
                         <th></th>
-                        <th colspan="2">Total Finance / Corporate / GP</th>
-                        <th><span><?php echo round(
-                            $Finance_PC - ($Operating_PC + $Factory_PC),
-                            2
-                        ); ?></span> PKR</th>
-                        <th><span><?php echo round(
-                            $Finance_KG - ($Operating_KG + $Factory_KG),
-                            2
-                        ); ?></span> PKR</th>
+                        <th colspan="1">Total Finance / Corporate / GP</th>
+                        <th><span>
+                          <?php echo round($totalpercent,  2); ?></span> %</th>
+                        <th><span>
+                          <?php echo round($Finance_PC - ($Finance_PC_),  2); ?></span> PKR</th>
+                        <th><span>
+                          <?php echo round($Finance_KG - ($Operating_KG + $Factory_KG),2); ?></span> PKR/KG</th>
                       </tr>
       
                     </tfoot>
@@ -785,7 +790,7 @@ function roundPost ($value){
                       <th style="width: 25%;">Title</th>
                       <th style="width: 25%;">Per PC</th>
                       <th style="width: 25%;">Per Kg</th>
-                      <?php echo ($_POST["StockType"] == "Per Pack" ? "<th style='width: 25%;'>Per Pack</th>": "")?>
+                      <?php echo ($isPack ? "<th style='width: 25%;'>Per Pack</th>": "")?>
                     </tr>
                   </thead>
                   <tbody id="NetCost">
@@ -794,7 +799,7 @@ function roundPost ($value){
                       <th>Cost in PKR</th>
                       <td><?php echo round($Finance_PC, 2); ?> PKR Per PC</td>
                       <td><?php echo round($Finance_KG, 2); ?> PKR Per KG</td>
-                      <?php echo ($_POST["StockType"] == "Per Pack" ? "<td>".round(($Finance_PC * $_POST["PackSize"]) + $otherCMT, 2)." PKR Per Pack</td>": "")?>
+                      <?php echo ($isPack ? "<td>".round(($Finance_PC * $_POST["PackSize"]) + $otherCMT, 2)." PKR Per Pack</td>": "")?>
                     </tr>
                     <?php if($_POST["isCurrency"] == "on"){
                       echo "<tr>

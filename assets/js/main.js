@@ -67,16 +67,16 @@ const RowDetails_Finance = [
   { name: "Bad Debts", id: "Debbs" },
   { name: "Export Tax", id: "ExportTax" },
   { name: "Air Freight", id: "Freight" },
-  { name: "Gross Profit", id: "Gross Profit" },
+  { name: "Gross Profit", id: "GrossProfit" },
   { name: "Oceanus Sea Freight", id: "CFreight" },
   { name: "Running Finance Cost", id: "Finance" },
   { name: "Domestic Port Handing", id: "Domestic" },
   { name: "Factoring / Insurance", id: "Insurance" },
   { name: "Factory Fix Over Head", id: "Factory" },
-  { name: "Other Country Custom Fee", id: "Custom Fee" },
-  { name: "Other Country online Holding Cost", id: "online Holding Cost" },
+  { name: "Other Country Custom Fee", id: "CustomFee" },
+  { name: "Other Country online Holding Cost", id: "HoldingCost" },
   { name: "Sales / Marketing / Exhibition", id: "Exhibition" },
-  { name: "Defective Allowance (on Custom Request)", id: "Defective Allowance" },
+  { name: "Defective Allowance (on Custom Request)", id: "DefectiveAllowance" },
 ];
 
 const RowDetails_Waste = [
@@ -92,9 +92,11 @@ const RowDetails_ProductName = [
   { name: "12/S", type: "semi", list: [] },
   { name: "16/S", type: "semi", list: [] },
   { name: "18/S", type: "Special", list: ["OE Cotton", "PC Cotton"] },
-  { name: "20/S", type: "normal", list: [] },
+  { name: "20/S", type: "normalSpecial", list: ["Lycra"] },
   { name: "20/2", type: "normal", list: [] },
-  { name: "30/S", type: "normal", list: [] },
+  { name: "26/S", type: "normal", list: [] },
+  { name: "30/S", type: "normalSpecial", list: ["Lycra"] },
+  { name: "40/S", type: "Special", list: ["Lycra"] },
   { name: "150/144", type: "Special", list: ["Lycra", "Polyester"] },
 ];
 
@@ -136,12 +138,16 @@ function initiative() {
     "Spun / Poly R/S",
   ];
 
+
   for (const element of RowDetails_ProductName) {
     if (element.type != "Special") {
-        element.list = listyarn;
+        element.list = (listyarn);
         if(element.type == "semi"){
           element.list = element.list.concat("OE Cotton");
           element.list = element.list.concat("UE PC");
+        }
+        else if(element.type == "normalSpecial"){
+          element.list = element.list.concat("Lycra");
         }
     }
   }
@@ -542,8 +548,14 @@ function addColumn_FinanceCost() {
 }
 
 function onChange_FinanceCostCost() {
-  let NetCost_PC = getDocument("TotalOperatingCost_Piece").innerHTML;
-  let NetCost_KG = getDocument("TotalOperatingCost_KG").innerHTML;
+  let OperatingCost_PC = getDocument("TotalOperatingCost_Piece").innerHTML;
+  let NetCost_PC = getDocument("TotalNetCost_Piece").innerHTML;
+  let _KG = getDocument("Perkg").innerHTML;
+    
+  let totalCost_PC = -(-OperatingCost_PC - NetCost_PC);
+  let totalCost_kg = totalCost_PC * _KG;
+
+  console.log(totalCost_PC, totalCost_kg);
 
   let totalKG = 0,
     totalPiece = 0,
@@ -552,14 +564,14 @@ function onChange_FinanceCostCost() {
   for (const element of RowDetails_Finance) {
     temp = getDocument(`${element.id}_Percentage`).value / 100;
 
-    totalKG += temp * NetCost_KG;
-    totalPiece += temp * NetCost_PC;
+    totalKG += temp * totalCost_kg;
+    totalPiece += temp * totalCost_PC;
 
     getDocument(`${element.id}_Piece`).innerHTML = parseFloat(
-      temp * NetCost_PC
+      temp * totalCost_PC
     ).toFixed(2);
     getDocument(`${element.id}_kg`).innerHTML = parseFloat(
-      temp * NetCost_KG
+      temp * totalCost_kg
     ).toFixed(2);
   }
 

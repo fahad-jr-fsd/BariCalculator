@@ -90,8 +90,6 @@ function Store_onChange(){
     if(match){
       getDocument("CMT_Pack").style.display = "none";
       document.querySelector(".displayNone").style.display = "none";
-      
-      
     }else{
       getDocument("CMT_Pack").style.display = "inline";
       document.querySelector(".displayNone").style.display = "table-row";
