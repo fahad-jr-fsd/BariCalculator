@@ -68,7 +68,7 @@ const RowDetails_Finance = [
   { name: "Export Tax", id: "ExportTax" },
   { name: "Air Freight", id: "Freight" },
   { name: "Gross Profit", id: "GrossProfit" },
-  { name: "Oceanus Sea Freight", id: "CFreight" },
+  { name: "Ocean Sea Freight", id: "CFreight" },
   { name: "Running Finance Cost", id: "Finance" },
   { name: "Domestic Port Handing", id: "Domestic" },
   { name: "Factoring / Insurance", id: "Insurance" },
@@ -83,7 +83,7 @@ const RowDetails_Waste = [
   { name: "Dying Process", id: "Dying" },
   { name: "Cutting / Stitching / B%", id: "B%" },
   { name: "Weaving / Knitting Yarn", id: "Weaving" },
-  { name: "Shairing / Rising", id: "Shairing" },
+  { name: "Sheering / Raising", id: "Shairing" },
   { name: "Yarn Dying", id: "Yarn_Dying" },
 ];
 
@@ -92,16 +92,19 @@ const RowDetails_ProductName = [
   { name: "12/S", type: "semi", list: [] },
   { name: "16/S", type: "semi", list: [] },
   { name: "18/S", type: "Special", list: ["OE Cotton", "PC Cotton"] },
-  { name: "20/S", type: "normalSpecial", list: ["Lycra"] },
+  { name: "20/S", type: "normal", list: ["Lycra"] },
   { name: "20/2", type: "normal", list: [] },
   { name: "26/S", type: "normal", list: [] },
   { name: "30/S", type: "normalSpecial", list: ["Lycra"] },
-  { name: "40/S", type: "Special", list: ["Lycra"] },
-  { name: "150/144", type: "Special", list: ["Lycra", "Polyester"] },
+  
+  { name: "20", type: "Special", list: ["Lycra"] },
+  { name: "30", type: "Special", list: ["Lycra"] },
+  { name: "40", type: "Special", list: ["Lycra"] },
+  { name: "150/144", type: "Special", list: ["Polyester"] },
 ];
 
 const Catorgies = [
-  " Knitted Fitted Sheet",
+  "Knitted Fitted Sheet",
   "Apparel / Bathrobes",
   "Terry Towels",
   "Blankets",

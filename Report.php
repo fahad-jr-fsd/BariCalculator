@@ -56,9 +56,9 @@ $RowDetails_FactoryPack = [
 ];
 
 $RowDetails_Piece = [
-    ['Per piece GSM & Spec Information', 'GSM'],
-    ['Cut Width in cm', 'CutWidth'],
-    ['Cut Lenght/Height in cm', 'CutLenght'],
+  ['Per piece GSM & Spec Information', 'GSM'],
+  ['Cut Width in cm', 'CutWidth'],
+  ['Cut Lenght/Height in cm', 'CutLenght'],
 ];
 
 $RowDetails_Apparel = [
@@ -75,7 +75,7 @@ $RowDetails_Finance = [
   ["Export Tax",                   "ExportTax" ],
   ["Air Freight",                    "Freight" ],
   ["Gross Profit",                   "GrossProfit" ],
-  ["Oceanus Sea Freight",                    "CFreight" ],
+  ["Ocean Sea Freight",                    "CFreight" ],
   ["Running Finance Cost",                   "Finance" ],
   ["Factory Fix Over Head",                    "Factory" ],
   ["Domestic Port Handing",                    "Domestic" ],
