@@ -18,11 +18,11 @@ $RowDetails_Operation = [
   ["ToP / PP Sample",  "Sample" ],
   ["3rd Party Testing",  "Testing" ],
   ["3rd Party Inspection",  "Inspection" ],
-  ["Sales Commission",  "SalesCommission" ],
 ];
 
 $RowDetails_Factory = [
   ["Stitching"               , "Stitching"], 
+  ["Button",                   "Button"],
   ["Lable"                   , "Lable"], 
   ["Stitching Thread"        , "StitchingThread"],
   ["Poly Bag"                , "PolyBag"], 
@@ -74,7 +74,6 @@ $RowDetails_Finance = [
   ["Bad Debts",                    "Debbs" ],
   ["Export Tax",                   "ExportTax" ],
   ["Air Freight",                    "Freight" ],
-  ["Gross Profit",                   "GrossProfit" ],
   ["Ocean Sea Freight",                    "CFreight" ],
   ["Running Finance Cost",                   "Finance" ],
   ["Factory Fix Over Head",                    "Factory" ],
@@ -83,7 +82,8 @@ $RowDetails_Finance = [
   ["Other Country Custom Fee",                   "CustomFee" ],
   ["Sales / Marketing / Exhibition",                   "Exhibition" ],
   ["Other Country online Holding Cost",                    "HoldingCost" ],
-  ["Defective Allowance (on Custom Request)",                    "DefectiveAllowance" ],
+  ["Defective Allowance (on Customer Request)",                    "DefectiveAllowance" ],
+  ["Gross Profit",                   "GrossProfit" ],
 ];
 
 if(!isset($_POST["isCurrency"])){
@@ -110,7 +110,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
     'PName' => $d['ProductCategory'],
     "PDesc"  => $d["Product_Description"],
     'NYarn' => $d['YarnMixture'],
-    'SType' => $d["StockType"].($d["StockType"] == "Per Pack" ? " ( PackSize = ".$d["PackSize"]." )": ""),
+    'SType' => $d["StockType"].($d["StockType"] == "Per Pack" ? " ( PackSize = ".$d["PackSize_CMT"]." )": ""),
     "isC"   => $d["isCurrency"] == "on" ? ("<tr><td>6. </td><td>Currency Conversion(".$d["CurrencyName"].")</td><td>1 ".$d["CurrencyName"]." => ".$d["CurrencyRate"]." PKR </td></tr>"):"",
     "Date"  => date('l jS \of F Y'),
     "pay"  => ($days == 2 ? '30' : ($days == 4 ? '60': ($days == 6 ? '90' :'120'))). ' Days (' .$days .'%)'
@@ -156,13 +156,14 @@ $isPack = $_POST["StockType"] == "Per Pack";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        
 
-        .table td:nth-child(2){
-            font-weight: bold;
-        }
         .table td, .table th {
-            text-align: start !important;
+          text-align: start !important;
+        }
+        
+        tr > th:nth-child(2){
+          font-weight: bold;
+          width: 50% !important;
         }
     </style>
   </head>
@@ -198,7 +199,6 @@ $isPack = $_POST["StockType"] == "Per Pack";
       <div class="row head">
         <div class="col-md-12 d-flex justify-content-between">
           <div>
-            <button class="btn btn-outline-danger" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i> Back</button>
             <button class="btn btn-success" onclick="window.location.replace('index.html');">Add new Report</button>
           </div>
             
@@ -616,7 +616,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                       <tr>
                         <th style='width: 5%;'></th>
                         <th style='width: 25%;'>Categories</th>
-                        <th style='width: 25%;'>Per Pack Cost(<span id='PerPiece'>".$_POST["PackSize"]." Piece</span>)</th>
+                        <th style='width: 25%;'>Per Pack Cost(<span id='PerPiece'>".$_POST["PackSize_CMT"]." Piece</span>)</th>
                       </tr>
                     </thead>
 
@@ -655,7 +655,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                   <thead>
                     
                     <tr >
-                      <th colspan="6">7. Operating Cost</th>
+                      <th colspan="6">7. Variable Cost</th>
                     </tr>
 
                     <tr >
@@ -671,7 +671,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                     <?php
                     $Operating_KG = 0;
                     $Operating_PC = 0;
-                    $total = 1;
+                    $total = 0;
 
                     foreach ($RowDetails_Operation as $key => $value) {
                       if(isset($_POST[$value[1]."_isCheck"]) != 1){
@@ -681,6 +681,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                       $Operating_KG += round(($_POST[$value[1]] / 100) * $Factory_KG, 2);
                       $Operating_PC += round(($_POST[$value[1]] / 100) * $Factory_PC, 2);
                       $total += $_POST[$value[1]]; 
+
                       echo "<tr>
                               <td>" .($key + 1)."</td>
                               <td>" .$value[0]."</td>
@@ -694,7 +695,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                   <tfoot>
                     <tr>
                       <th></th>
-                      <th colspan="1">Total Operating Cost</th>
+                      <th colspan="1">Total Variable Cost</th>
                       <th><?php echo round($total,2); ?> %</th>
                       <th><?php echo round($Operating_PC,2); ?> PKR</th>
                       <th><?php echo round($Operating_KG,2); ?> PKR/Kg</th>
@@ -711,7 +712,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                 <table class="table" cellspacing="0">
                     <thead>
                       <tr >
-                        <th colspan="5">Finance / Corporate / GP</th>
+                        <th colspan="5">Finance / Operating / GP</th>
                       </tr>
                       <tr >
                         <th style="width: 5%;"></th>
@@ -759,7 +760,7 @@ $isPack = $_POST["StockType"] == "Per Pack";
                       
                       <tr>
                         <th></th>
-                        <th colspan="1">Total Finance / Corporate / GP</th>
+                        <th colspan="1">Total Finance / Operating / GP</th>
                         <th><span>
                           <?php echo round($totalpercent,  2); ?></span> %</th>
                         <th><span>
@@ -797,17 +798,17 @@ $isPack = $_POST["StockType"] == "Per Pack";
                     <tr>
                       <th>1</th>
                       <th>Cost in PKR</th>
-                      <td><?php echo round($Finance_PC, 2); ?> PKR Per PC</td>
-                      <td><?php echo round($Finance_KG, 2); ?> PKR Per KG</td>
-                      <?php echo ($isPack ? "<td>".round(($Finance_PC * $_POST["PackSize"]) + $otherCMT, 2)." PKR Per Pack</td>": "")?>
+                      <td><?php echo round($Finance_PC, 2); ?> </td>
+                      <td><?php echo round($Finance_KG, 2); ?> </td>
+                      <?php echo ($isPack ? "<td>".round(($Finance_PC * $_POST["PackSize_CMT"]) + $otherCMT, 2)."</td>": "")?>
                     </tr>
                     <?php if($_POST["isCurrency"] == "on"){
                       echo "<tr>
                       <th>2</th>
                       <th>Cost in ".$_POST["CurrencyName"]."</th>
-                      <td>".round(($Finance_PC) / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"]." Per PC</td>
-                      <td>".round($Finance_KG / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"]." Per KG</td>
-                      ".($_POST["StockType"] == 'Per Pack' ? '<td>'.round((($Finance_PC * $_POST["PackSize"]) + $otherCMT) / $_POST["CurrencyRate"], 2)." ".$_POST["CurrencyName"].' Per Pack</td>':'')."</tr>";
+                      <td>".round(($Finance_PC) / $_POST["CurrencyRate"], 2)."</td>
+                      <td>".round($Finance_KG / $_POST["CurrencyRate"], 2)."</td>
+                      ".($_POST["StockType"] == 'Per Pack' ? '<td>'.round((($Finance_PC * $_POST["PackSize_CMT"]) + $otherCMT) / $_POST["CurrencyRate"], 2).'</td>':'')."</tr>";
                     }?>
                   </tbody>
                   

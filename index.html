@@ -89,15 +89,9 @@
                   </select>
                 </td>
               <tr>
-              <tr class="displayNone">
-                <td>7.</td>
-                <td>Pack Size</td>
-                <td>
-                  <input name="PackSize" placeholder="Enter Per Pack Size">
-                </td>
-              </tr>
+              
               <tr>
-                  <td>8.</td>
+                  <td>7.</td>
                   <td>Payment Terms (Days)</td>
                   <td>
                     <select name="PaymentDays" id="Payment_Percentage" onclick="getTotal_Finance()">
@@ -121,8 +115,8 @@
       </div>
 
       <!-- Yarn Mixture  -->
-      <div class="row" id="row1">
-        <div class="col">
+      <div class="row">
+        <div class="col-md-12">
           <table class="table table-bordered">
             <thead>
               <tr>
@@ -153,11 +147,43 @@
         </div>
       </div>
 
-      <div class="row">
         <!-- Waste + Factory + Stock -->
-        <div class="col col-md-6" id="row2">
+        <div class="col col-md-12" id="row2">
+
+        </div>
+      <!-- Waste + Fabric -->
+      <div class="row">
+          <!-- Waste -->
+          <div class="col col-md-6">
+            <table class="table table-bordered" cellspacing="0">
+              <thead>
+                <tr>
+                  <th colspan="4">4. Production Wastages</th>
+                </tr>
+                <tr>
+                  <th style="width: 5%;"></th>
+                  <th>Categories</th>
+                  <th>Percentages</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody id="WasteBody">
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th>Total Waste</th>
+
+                  <td><span id="Wtotal">0</span> %</td>
+                  <th><span id="Wtotal_Cost">0</span> PKR</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
           <!-- Fabric Cost Information -->
-          <div class="col col-md-12">
+          <div class="col col-md-6">
             <table class="table table-bordered" cellspacing="0">
               <thead>
                 <tr>
@@ -215,136 +241,13 @@
               </tfoot>
             </table>
           </div>
+      </div>
 
-          <!-- Other CMT -->
-          <div class="col col-md-12" id="CMT_Pack" style="display: none;">
-            <table class="table table-bordered" cellspacing="0">
-              <thead>
-                <tr>
-                  <th colspan="4">6.2. CMT Cost Per Pack (with Packing)</th>
-                </tr>
-
-                <tr>
-                  <th style="width: 5%;"></th>
-                  <th>Categories</th>
-                  <th>Per Pack Cost</th>
-                </tr>
-              </thead>
-              <tbody id="CMTPack">
-
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th></th>
-                  <th>Total CMT Cost (with Packing)</th>
-                  <th id="TotalCMTCost_Pack">0</th>
-                </tr>
-
-              </tfoot>
-            </table>
-          </div>
-
-          <!-- Operating Cost -->
-          <div class="col col-md-12">
-            <table class="table table-bordered" cellspacing="0">
-              <thead>
-
-                <tr>
-                  <th colspan="5">7. Operating Cost</th>
-                </tr>
-
-                <tr>
-                  <th style="width: 6%;"></th>
-                  <th>Categories</th>
-                  <th>Percentages</th>
-                  <th>Per PC</th>
-                  <th>Per Kg</th>
-                  <!-- <th id="perPack">Per Pack</th> -->
-                </tr>
-              </thead>
-              <tbody id="OperatingCost">
-
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th></th>
-                  <th>Total Operating Cost</th>
-                  <th></th>
-                  <th id="TotalOperatingCost_Piece">0</th>
-                  <th id="TotalOperatingCost_KG">0</th>
-                </tr>
-
-              </tfoot>
-            </table>
-          </div>
-
-          <!-- Finance / Corporate / GP -->
-          <div class="col col-md-12">
-            <table class="table table-bordered" cellspacing="0">
-              <thead>
-                <tr>
-                  <th colspan="5">8. Finance / Corporate / GP</th>
-                </tr>
-                <tr>
-                  <th style="width: 5%;"></th>
-                  <th>Categories</th>
-                  <th>Percentages</th>
-                  <th>Per PC</th>
-                  <th>Per KG</th>
-                </tr>
-              </thead>
-              <tbody id="FinanceCost">
-
-
-              </tbody>
-              <tfoot>
-
-                <tr>
-                  <th></th>
-                  <th colspan="2">Total Finance / Corporate / GP</th>
-                  <th id="TotalFinance_Piece"><span>0</span> PKR</th>
-                  <th id="TotalFinance_KG"><span>0</span> PKR</th>
-                </tr>
-
-              </tfoot>
-            </table>
-
-          </div>
-        </div>
+         
 
         <!-- Fabric + Operating + Finance -->
-        <div class="col col-md-6">
-          <div class="row" id="row3">
-
-            <!-- Waste -->
-            <div class="col col-md-12">
-              <table class="table table-bordered" cellspacing="0">
-                <thead>
-                  <tr>
-                    <th colspan="4">4. Production Wastages</th>
-                  </tr>
-                  <tr>
-                    <th style="width: 5%;"></th>
-                    <th>Categories</th>
-                    <th>Percentages</th>
-                    <th>Cost</th>
-                  </tr>
-                </thead>
-                <tbody id="WasteBody">
-                </tbody>
-
-                <tfoot>
-                  <tr>
-                    <th></th>
-                    <th>Total Waste</th>
-
-                    <td><span id="Wtotal">0</span> %</td>
-                    <th><span id="Wtotal_Cost">0</span> PKR</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-
+        <div class="row" id="row3">
+            <div class="col col-md-6">
             <!-- CMT -->
             <div class="col col-md-12">
               <table class="table table-bordered" cellspacing="0">
@@ -374,12 +277,106 @@
                 </tfoot>
               </table>
             </div>
+          </div>
+
+          <div class="col col-md-6">
+            <!-- Variable Cost -->
+            <div class="col col-md-12">
+              <table class="table table-bordered" cellspacing="0">
+                <thead>
+
+                  <tr>
+                    <th colspan="5">7. Variable Cost</th>
+                  </tr>
+
+                  <tr>
+                    <th style="width: 6%;"></th>
+                    <th>Categories</th>
+                    <th>Percentages</th>
+                    <th>Per PC</th>
+                    <th>Per Kg</th>
+                    <!-- <th id="perPack">Per Pack</th> -->
+                  </tr>
+                </thead>
+                <tbody id="OperatingCost">
+
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th></th>
+                    <th>Total Variable Cost</th>
+                    <th></th>
+                    <th id="TotalOperatingCost_Piece">0</th>
+                    <th id="TotalOperatingCost_KG">0</th>
+                  </tr>
+
+                </tfoot>
+              </table>
+            </div>
+
+             <!-- Finance / Operating / GP -->
+             <div class="col col-md-12">
+              <table class="table table-bordered" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th colspan="5">8. Finance / Operating / GP</th>
+                  </tr>
+                  <tr>
+                    <th style="width: 5%;"></th>
+                    <th>Categories</th>
+                    <th>Percentages</th>
+                    <th>Per PC</th>
+                    <th>Per KG</th>
+                  </tr>
+                </thead>
+                <tbody id="FinanceCost">
 
 
+                </tbody>
+                <tfoot>
+
+                  <tr>
+                    <th></th>
+                    <th colspan="2">Total Finance / Operating / GP</th>
+                    <th id="TotalFinance_Piece"><span>0</span> PKR</th>
+                    <th id="TotalFinance_KG"><span>0</span> PKR</th>
+                  </tr>
+
+                </tfoot>
+              </table>
+
+            </div>
           </div>
         </div>
 
-      </div>
+        <!-- Other CMT -->
+        <div class="col col-md-12" id="CMT_Pack" style="display: none;">
+          <table class="table table-bordered" cellspacing="0">
+            <thead>
+              <tr>
+                <th colspan="4">8. CMT Cost Per Pack (with Packing)</th>
+              </tr>
+
+              <tr>
+                <th style="width: 5%;"></th>
+                <th>Categories</th>
+                <th>Per Pack Cost</th>
+              </tr>
+            </thead>
+            <tbody id="CMTPack">
+
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th>Total CMT Cost (with Packing)</th>
+                <th id="TotalCMTCost_Pack">0</th>
+              </tr>
+
+            </tfoot>
+          </table>
+        </div>
+
       <input type="submit" value="Submit" id="Submit" disabled /><br />
 
     </form>
@@ -389,8 +386,6 @@
 
 <script>
   const form = document.querySelector('form');
-  const totalFabriceCost = document.querySelector('h4 span');
-  const perPieceCostAutomation = document.querySelector('h4 span');
   form.addEventListener('submit', (e) => {
     location.href = './Report.php';
   });

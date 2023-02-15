@@ -25,6 +25,7 @@ const tableHead = {
 const RowDetails_Factory = [
   { name: "Stitching", id: "Stitching" },
   { name: "Lable", id: "Lable" },
+  { name: "Button", id: "Button" },
   { name: "Stitching Thread", id: "StitchingThread" },
   { name: "Poly Bag", id: "PolyBag" },
   { name: "Zipper", id: "Zipper" },
@@ -46,6 +47,7 @@ const RowDetails_Factory = [
 ];
 
 const RowDetails_FactoryPack = [
+  { name: "Pack Size", id: "PackSize" },
   { name: "TagPin", id: "CTagPin" },
   { name: "Twill Tape", id: "CTwill" },
   { name: "Basic Carton", id: "CBasicCarton" },
@@ -60,14 +62,12 @@ const RowDetails_Operation = [
   { name: "ToP / PP Sample", id: "Sample" },
   { name: "3rd Party Testing", id: "Testing" },
   { name: "3rd Party Inspection", id: "Inspection" },
-  { name: "Sales Commission", id: "SalesCommission" },
 ];
 
 const RowDetails_Finance = [
   { name: "Bad Debts", id: "Debbs" },
   { name: "Export Tax", id: "ExportTax" },
   { name: "Air Freight", id: "Freight" },
-  { name: "Gross Profit", id: "GrossProfit" },
   { name: "Ocean Sea Freight", id: "CFreight" },
   { name: "Running Finance Cost", id: "Finance" },
   { name: "Domestic Port Handing", id: "Domestic" },
@@ -76,7 +76,8 @@ const RowDetails_Finance = [
   { name: "Other Country Custom Fee", id: "CustomFee" },
   { name: "Other Country online Holding Cost", id: "HoldingCost" },
   { name: "Sales / Marketing / Exhibition", id: "Exhibition" },
-  { name: "Defective Allowance (on Custom Request)", id: "DefectiveAllowance" },
+  { name: "Gross Profit", id: "GrossProfit" },
+  { name: "Defective Allowance (on Customer Request)", id: "DefectiveAllowance" },
 ];
 
 const RowDetails_Waste = [
@@ -441,7 +442,7 @@ function addColumn_CMTCost(items) {
         temp.id
       }_Piece" name="${
       temp.id
-    }_CMT" placeholder="Enter Cost per Pack" min="0" step="0.01" required /></td>
+    }_CMT" placeholder="Enter ${index != 0 ? 'Cost per Pack': temp.name}" min="0" step="0.01" required /></td>
     </tr>`;
   }
 }
@@ -474,9 +475,11 @@ function onChange_NetCost() {
 function onChange_CMTCost() {
   let temp = 0;
 
-  for (const element of RowDetails_FactoryPack) {
+  for (let index = 1; index < RowDetails_FactoryPack.length; index++) {
+    const element = RowDetails_FactoryPack[index];
     temp += getDocument(`${element.id}_Piece`).value * 1;
   }
+
   if (isFinite(temp)) {
     getDocument("TotalCMTCost_Pack").innerHTML = temp;
     onChange_OperCost();

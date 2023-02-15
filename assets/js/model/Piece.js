@@ -123,22 +123,19 @@ class Piece {
       return temp;
     }
   }
+
+  // For View purpose
   
   toString(){
-    if(this.type == "normal" || this.type == "normalSpecial"){
-      getDocument("row2").innerHTML = this.getTemplate() + getDocument("row2").innerHTML;
-    }else{
-      getDocument("row1").innerHTML += this.getTemplateApparel();
-    }
+
+    var matchArray = ["normal", "normalSpecial"];
+    getDocument("row2").innerHTML = matchArray.indexOf(this.type) != -1 ? this.getTemplate() : this.getTemplateApparel();
+    
   }
 
   // This function will remove already added piece
   remove(){
-    if(this.type == "normal" || this.type == "normalSpecial"){
-      getDocument("row2").removeChild(getDocument("row2").children[0]);
-    }else{
-      getDocument("row1").removeChild(getDocument("row1").children[1]);
-    }
+    getDocument("row2").innerHTML = "";
   }
 }
 
