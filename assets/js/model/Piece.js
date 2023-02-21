@@ -111,10 +111,10 @@ class Piece {
             <td>${row.name}</td>
             ${row.mulipltier == 2 ? 
             
-            "<td><input type='number' id='Apparel_"+row.id+"_W' name='"+row.id+"_W' placeholder='Enter "+row.name+" Width' min='0' onchange='onChange(0)'></td>"+
-            "<td><input type='number' id='Apparel_"+row.id+"_H' name='"+row.id+"_H' placeholder='Enter "+row.name+" length' min='0'  onchange='onChange(0)'></td>" : 
+            "<td><input type='number' id='Apparel_"+row.id+"_W' name='"+row.id+"_W' placeholder='Enter "+row.name+" Width' step='0.01'   min='0' onchange='onChange(0)'></td>"+
+            "<td><input type='number' id='Apparel_"+row.id+"_H' name='"+row.id+"_H' placeholder='Enter "+row.name+" length' step='0.01'  min='0'  onchange='onChange(0)'></td>" : 
             
-            ("<td colspan='2'><input type='number' id='Apparel_"+row.id+"_P' name='"+row.id+"' placeholder='Enter "+row.name+"' onchange='onChange(0)'></td>")
+            ("<td colspan='2'><input type='number' id='Apparel_"+row.id+"_P' name='"+row.id+"' step='0.01'   placeholder='Enter "+row.name+"' onchange='onChange(0)'></td>")
             }
             ${row.mulipltier == 0.5 ? "": "<td>0</td>"}
           </tr>
