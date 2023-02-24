@@ -1,9 +1,56 @@
 <?php 
 
-  if($_POST == []) {
-      header('Location: ./index.html');
+if($_POST == []) {
+  header('Location: ./index.html');
+}else{
+  if(!isset($_POST["isCurrency"])){
+    $_POST["isCurrency"] = "OFF";
   }
+  information();
+}
+
+function information(){
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $db = "pscc_db";
+
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $db);
+
+  // Check connection
+  if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+
+
+  $sql = "INSERT INTO `basic_informations` (`Employee Name`, `Client Name`, `Product Type`, `Product Description`, `No of Yarn`, `Stock Type`, `Payment Terms`, `isCurrency`, `Currency name`, `Currency Rate`) VALUES (".getBasicInfo().")";
+  // $sql  .= "INSERT INTO `product_informations`(`PTID`, `Rate_LBS`, `Percentage`) VALUES (".getYarnInfo().")";
+
+  if ($conn->query($sql) === TRUE) {
+    // echo "New records created successfully";
+  } else {
+    // ;
+  }
+
+  $conn->close();
+}
+
+function getBasicInfo(){
+  return "'".$_POST['Employee_Name']."', '".$_POST['Client_Name']."', '".$_POST['ProductCategory']."', '".$_POST['Product_Description']."', '".$_POST['YarnMixture']."', '".$_POST['StockType']."', '".($_POST["PaymentDays"])."','".$_POST['isCurrency']."', '".( $_POST["isCurrency"] != "OFF" ? $_POST['CurrencyName']."', '".$_POST['CurrencyRate']."'":"PKR', '1'");
+}
+
+function getYarnInfo(){
+  $temp = "";
+  for ($i=0; $i < $_POST['YarnMixture']; $i++) { 
+    
+  }
+  return "";
+}
+
 ?>
+
+
 
 <?php
 $WasteArray = [
@@ -86,9 +133,7 @@ $RowDetails_Finance = [
   ["Gross Profit",                   "GrossProfit" ],
 ];
 
-if(!isset($_POST["isCurrency"])){
-  $_POST["isCurrency"] = "OFF";
-}
+
 
 function roundPost ($value){
     return round($_POST[$value], 2);
